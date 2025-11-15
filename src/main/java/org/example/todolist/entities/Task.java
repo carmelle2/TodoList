@@ -1,3 +1,9 @@
+/**
+ * @author dev carmelle
+ * cette class represente la table tache qui saura dans notre base de donnee
+ * @attribut id, title, description, isCompleted
+ * */
+
 package org.example.todolist.entities;
 
 import jakarta.persistence.*;
