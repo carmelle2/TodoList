@@ -182,4 +182,17 @@ public class TaskController{
     public Task getTaskById(@PathVariable("id") Long id){
         return this.taskService.getTaskById(id); // user service to get task by id
     }
+
+    @ResponseStatus(value = HttpStatus.OK)
+    @PutMapping(path = "{id}", consumes = APPLICATION_JSON_VALUE)
+    public void updateTask(@PathVariable("id") Long id, @RequestBody Task task){
+        task.setId(id);
+        this.taskService.updateTask(task); // use service to update task
+    }
+
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
+    @DeleteMapping(path = "{id}")
+    public void deleteTask(@PathVariable("id") Long id){
+        this.taskService.deleteTask(id); // use service to delete task by id
+    }
 }
