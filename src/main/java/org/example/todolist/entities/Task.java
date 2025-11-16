@@ -1,8 +1,10 @@
 /**
  * @author dev carmelle
- * cette class represente la table tache qui saura dans notre base de donnee
- * @attribut id, title, description, isCompleted
- * */
+ * This class represents the Task table that will be stored
+ * in the database.
+ * @attributes id, title, description, completed
+ */
+
 
 package org.example.todolist.entities;
 
@@ -12,10 +14,24 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Getter
-@Setter
 @AllArgsConstructor
 public class Task {
+    public Long getId() {
+        return id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public boolean isCompleted() {
+        return completed;
+    }
+
     @Id
     @Column(unique = true)
     @Basic(optional = false)
@@ -28,7 +44,23 @@ public class Task {
     private String description;
 
     @Basic(optional = false)
-    private boolean isCompleted;
+    private boolean completed;
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setCompleted(boolean completed) {
+        this.completed = completed;
+    }
 
     public Task() {
 
