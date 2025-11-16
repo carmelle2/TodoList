@@ -74,6 +74,8 @@ import org.example.todolist.entities.Task;
 import org.example.todolist.repositories.TaskRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class TaskService {
     private final TaskRepository taskRepository;
@@ -84,5 +86,13 @@ public class TaskService {
 
     public void addTask(Task task){
         this.taskRepository.save(task);
+    }
+
+    public List<Task> getAllTasks(){
+        return this.taskRepository.findAll(); // return all task
+    }
+
+    public Task getTaskById(Long id){
+        return this.taskRepository.findById(id).orElse(null); // return task by id or null if not found
     }
 }

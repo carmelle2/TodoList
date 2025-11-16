@@ -3,7 +3,7 @@
  *                        TodoList API - Documentation
  * ===============================================================
  *
- * This API allows you to manage a list of tasks (Todo List).
+ * This API allows you to manage a list of tasks TodoList.
  * It provides REST operations to create, read, update,
  * and delete tasks.
  *
@@ -152,6 +152,8 @@ import org.example.todolist.services.TaskService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @RestController
@@ -166,7 +168,18 @@ public class TaskController{
     @ResponseStatus(value = HttpStatus.CREATED)
     @PostMapping(consumes = APPLICATION_JSON_VALUE)
     public void addTask(@RequestBody Task task){
-        this.taskService.addTask(task); // utilisation du service pour l'enregistrement en base de donnee
+        this.taskService.addTask(task); // use the service from save the task in the database
     }
 
+    @ResponseStatus(value = HttpStatus.ACCEPTED)
+    @GetMapping(produces = APPLICATION_JSON_VALUE)
+    public List<Task> getAllTasks(){
+        return this.taskService.getAllTasks();
+    }
+
+    @ResponseStatus(value = HttpStatus.ACCEPTED)
+    @GetMapping(path = "{id}", produces = APPLICATION_JSON_VALUE)
+    public Task getTaskById(@PathVariable("id") Long id){
+        return this.taskService.getTaskById(id); // user service to get task by id
+    }
 }
