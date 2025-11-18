@@ -147,6 +147,11 @@
 
 package org.example.todolist.controllers;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.example.todolist.entities.Task;
 import org.example.todolist.services.TaskService;
 import org.springframework.http.HttpStatus;
@@ -158,6 +163,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @RestController
 @RequestMapping("api/task/")
+@Tag(name = "Tasks", description = "API of management the tasks")
 public class TaskController{
     private final TaskService taskService;
 
@@ -167,11 +173,21 @@ public class TaskController{
 
     @ResponseStatus(value = HttpStatus.CREATED)
     @PostMapping(consumes = APPLICATION_JSON_VALUE)
-    public void addTask(@RequestBody Task task){
+    @Operation(summary = "save a task", description = "permit of add a task in database")
+    @ApiResponses({
+            @ApiResponse(responseCode = "201", description = "successful operation"),
+            @ApiResponse(responseCode = "400", description = "no success, erro, invalid input")
+    })
+    public void addTask(@RequestBody @Parameter(description = "a object of type Task") Task task){
         this.taskService.addTask(task); // use the service from save the task in the database
     }
 
     @ResponseStatus(value = HttpStatus.ACCEPTED)
+    @Operation(summary = "get all tasks", description = "permit of get all tasks in database")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "successful operation"),
+            @ApiResponse(responseCode = "404", description = "no found")
+    })
     @GetMapping(produces = APPLICATION_JSON_VALUE)
     public List<Task> getAllTasks(){
         return this.taskService.getAllTasks();
@@ -179,17 +195,32 @@ public class TaskController{
 
     @ResponseStatus(value = HttpStatus.ACCEPTED)
     @GetMapping(path = "{id}", produces = APPLICATION_JSON_VALUE)
+    @Operation(summary = "get task by identity", description = "permit of retrieve a task specific in database")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "successful operation"),
+            @ApiResponse(responseCode = "404", description = "no found")
+    })
     public Task getTaskById(@PathVariable("id") Long id){
         return this.taskService.getTaskById(id); // user service to get task by id
     }
 
     @ResponseStatus(value = HttpStatus.OK)
     @PutMapping(path = "{id}", consumes = APPLICATION_JSON_VALUE)
+    @Operation(summary = "update a task", description = "permit of update a task in database")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "successful operation"),
+            @ApiResponse(responseCode = "400", description = "no success, erro, invalid input")
+    })
     public void updateTask(@PathVariable("id") Long id, @RequestBody Task task){
         task.setId(id);
         this.taskService.updateTask(task); // use service to update task
     }
 
+    @Operation(summary = "delete a task", description = "permit of delete a task in database")
+    @ApiResponses({
+            @ApiResponse(responseCode = "204", description = "successful operation"),
+            @ApiResponse(responseCode = "404", description = "no found")
+    })
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     @DeleteMapping(path = "{id}")
     public void deleteTask(@PathVariable("id") Long id){

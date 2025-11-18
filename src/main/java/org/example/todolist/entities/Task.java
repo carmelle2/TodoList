@@ -8,6 +8,7 @@
 
 package org.example.todolist.entities;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,6 +16,7 @@ import lombok.Setter;
 
 @Entity
 @AllArgsConstructor
+@Schema(description = "represent a task")
 public class Task {
     public Long getId() {
         return id;
@@ -36,14 +38,16 @@ public class Task {
     @Column(unique = true)
     @Basic(optional = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Schema(description = "identifiant unique in database")
     private Long id;
-
+    @Schema(description = "title of the task")
     @Basic(optional = false)
     private String title;
-
+    @Schema(description = "description of the task")
     private String description;
 
     @Basic(optional = false)
+    @Schema(description = "if a task is conpleted or no")
     private boolean completed;
 
     public void setId(Long id) {
